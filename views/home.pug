@@ -4,24 +4,24 @@ block content
   h1 Hackathon Starter
   p.lead A boilerplate for Node.js web applications.
   hr
-  .row
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+  ul
+    if !user
+      li(class=(title === 'Login') ? 'active' : undefined)
+        a(href='/login') Login
+      li(class=(title === 'Create Account') ? 'active' : undefined)
+        a(href='/signup') Create Account
+    else
+      li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+        a.dropdown-toggle(href='#', data-toggle='dropdown')
+          if user.profile.picture
+            img(src=user.profile.picture)
+          else
+            img(src=user.gravatar(60))
+          span= user.profile.name || user.email || user.id
+          i.caret
+        ul.dropdown-menu
+          li
+            a(href='/account') My Account
+          li.divider
+          li
+            a(href='/logout') Logout

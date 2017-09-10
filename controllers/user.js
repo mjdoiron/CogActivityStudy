@@ -87,11 +87,11 @@ exports.postSignup = (req, res, next) => {
   }
 
   const user = new User({
-    username: req.body.email,
+    username: req.body.username,
     password: req.body.password
   });
 
-  User.findOne({ username: req.body.email }, (err, existingUser) => {
+  User.findOne({ username: req.body.username }, (err, existingUser) => {
     if (err) { return next(err); }
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that username address already exists.' });
@@ -136,7 +136,7 @@ exports.postUpdateProfile = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.username = req.body.email || '';
+    user.username = req.body.username || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
@@ -283,7 +283,7 @@ exports.postReset = (req, res, next) => {
       to: user.email,
       from: 'hackathon@starter.com',
       subject: 'Your Hackathon Starter password has been changed',
-      text: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
+      text: `Hello,\n\nThis is a confirmation that the password for your account ${user.username} has just been changed.\n`
     };
     return transporter.sendMail(mailOptions)
       .then(() => {
@@ -331,7 +331,7 @@ exports.postForgot = (req, res, next) => {
 
   const setRandomToken = token =>
     User
-      .findOne({username: req.body.email })
+      .findOne({username: req.body.username })
       .then((user) => {
         if (!user) {
           req.flash('errors', { msg: 'Account with that username address does not exist.' });
