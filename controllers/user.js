@@ -22,9 +22,9 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postLogin = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+  // req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
 
@@ -74,10 +74,10 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  req.assert('email', 'Email is not valid').isEmail();
+  // req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password must be at least 4 characters long').len(4);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
 
@@ -87,14 +87,14 @@ exports.postSignup = (req, res, next) => {
   }
 
   const user = new User({
-    email: req.body.email,
+    username: req.body.email,
     password: req.body.password
   });
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
+  User.findOne({ username: req.body.email }, (err, existingUser) => {
     if (err) { return next(err); }
     if (existingUser) {
-      req.flash('errors', { msg: 'Account with that email address already exists.' });
+      req.flash('errors', { msg: 'Account with that username address already exists.' });
       return res.redirect('/signup');
     }
     user.save((err) => {
@@ -124,8 +124,8 @@ exports.getAccount = (req, res) => {
  * Update profile information.
  */
 exports.postUpdateProfile = (req, res, next) => {
-  req.assert('email', 'Please enter a valid email address.').isEmail();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  // req.assert('email', 'Please enter a valid email address.').isEmail();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
 
@@ -136,7 +136,7 @@ exports.postUpdateProfile = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.email = req.body.email || '';
+    user.username = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
@@ -144,7 +144,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+          req.flash('errors', { msg: 'The username address you have entered is already associated with an account.' });
           return res.redirect('/account');
         }
         return next(err);
@@ -315,8 +315,8 @@ exports.getForgot = (req, res) => {
  * Create a random token, then the send user an email with a reset link.
  */
 exports.postForgot = (req, res, next) => {
-  req.assert('email', 'Please enter a valid email address.').isEmail();
-  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+  // req.assert('email', 'Please enter a valid email address.').isEmail();
+  // req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
 
@@ -331,7 +331,7 @@ exports.postForgot = (req, res, next) => {
 
   const setRandomToken = token =>
     User
-      .findOne({ email: req.body.email })
+      .findOne({ username: req.body.email })
       .then((user) => {
         if (!user) {
           req.flash('errors', { msg: 'Account with that email address does not exist.' });
