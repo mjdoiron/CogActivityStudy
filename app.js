@@ -15,7 +15,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 
 /**
