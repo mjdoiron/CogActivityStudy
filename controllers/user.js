@@ -331,10 +331,10 @@ exports.postForgot = (req, res, next) => {
 
   const setRandomToken = token =>
     User
-      .findOne({ username: req.body.email })
+      .findOne({username: req.body.email })
       .then((user) => {
         if (!user) {
-          req.flash('errors', { msg: 'Account with that email address does not exist.' });
+          req.flash('errors', { msg: 'Account with that username address does not exist.' });
         } else {
           user.passwordResetToken = token;
           user.passwordResetExpires = Date.now() + 3600000; // 1 hour
