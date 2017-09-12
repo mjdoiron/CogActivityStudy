@@ -3,6 +3,7 @@ const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
+const logger = require('../scripts/logger')
 
 /**
  * GET /login
@@ -42,7 +43,9 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.redirect('/');
+      logger.forEvent(req.user.username, 'LogIn')
+
     });
   })(req, res, next);
 };
@@ -52,6 +55,7 @@ exports.postLogin = (req, res, next) => {
  * Log out.
  */
 exports.logout = (req, res) => {
+  logger.forEvent(req.user.username, 'LogOut')
   req.logout();
   res.redirect('/');
 };
@@ -103,6 +107,7 @@ exports.postSignup = (req, res, next) => {
         if (err) {
           return next(err);
         }
+        logger.forEvent(req.user.username, 'SignUp')
         res.redirect('/');
       });
     });
@@ -280,7 +285,7 @@ exports.postReset = (req, res, next) => {
       }
     });
     const mailOptions = {
-      to: user.email,
+      to: 'mjdoiron@gmail.com',
       from: 'hackathon@starter.com',
       subject: 'Your Hackathon Starter password has been changed',
       text: `Hello,\n\nThis is a confirmation that the password for your account ${user.username} has just been changed.\n`
@@ -354,7 +359,7 @@ exports.postForgot = (req, res, next) => {
       }
     });
     const mailOptions = {
-      to: user.email,
+      to: 'mjdoiron@gmail.com',
       from: 'hackathon@starter.com',
       subject: 'Reset your password on Hackathon Starter',
       text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n

@@ -1,27 +1,30 @@
 extends layout
 
 block content
-  h1 Hackathon Starter
-  p.lead A boilerplate for Node.js web applications.
-  hr
-  ul
-    if !user
-      li(class=(title === 'Login') ? 'active' : undefined)
-        a(href='/login') Login
-      li(class=(title === 'Create Account') ? 'active' : undefined)
-        a(href='/signup') Create Account
-    else
-      li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
-        a.dropdown-toggle(href='#', data-toggle='dropdown')
-          if user.profile.picture
-            img(src=user.profile.picture)
-          else
-            img(src=user.gravatar(60))
-          span= user.profile.name || user.email || user.id
-          i.caret
-        ul.dropdown-menu
-          li
-            a(href='/account') My Account
-          li.divider
-          li
-            a(href='/logout') Logout
+  if !user
+    form.form#signin(name='login', method='post', action='login')
+      a(href="/login")
+        button.button.button-block(type='default', class=(title === 'Login') ? 'active' : undefined) Login
+  else
+    if (user.username == "admin")
+      .form(style= "background-color: orange;")
+        h1 Admin Area
+        ul
+          .dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              span= user.profile.name || user.username || user.id
+              i.caret
+            ul.dropdown-menu
+              li
+                a(href='/account') My Account
+              li.divider
+              li
+                a(href='/logout') Logout
+    .form
+      .field-wrap
+        h2 Did you complete a sleep diary today?
+      .field-wrap
+        a(href="/game")
+          button.button.button-block(type='default') Yes 
+      a(href="/sleepDiary")
+        button.button.button-block(type='default') No 

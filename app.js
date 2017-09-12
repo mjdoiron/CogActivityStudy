@@ -27,6 +27,7 @@ dotenv.load({ path: '.env.example' });
  */
 const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
+const experimentController = require('./controllers/experiment');
 
 /**
  * API keys and Passport configuration.
@@ -66,8 +67,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(session({
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
@@ -85,19 +86,24 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // After successful login, redirect back to the intended page
   if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
-      !req.path.match(/^\/auth/) &&
-      !req.path.match(/\./)) {
-    req.session.returnTo = req.path;
+    req.path !== '/login' &&
+    req.path !== '/signup' &&
+    !req.path.match(/^\/auth/) &&
+    !req.path.match(/\./)) {
+      req.session.returnTo = req.path;
   } else if (req.user &&
-      req.path === '/account') {
+    req.path === '/account') {
     req.session.returnTo = req.path;
   }
   next();
 });
+
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+// app.use(function(req, res, next) {
+//   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+//   next();
+// });
 /**
  * Primary app routes.
  */
@@ -116,7 +122,20 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/sleepDiary', isLoggedIn, experimentController.getSleepDiary);
+app.post('/sleepDiary', isLoggedIn, experimentController.postSleepDiary);
+app.get('/game', isLoggedIn, experimentController.getGame);
+app.get('/gameA', isLoggedIn, experimentController.getGameA);
+app.get('/gameB', isLoggedIn, experimentController.getGameB);
+app.get('/gameC', isLoggedIn, experimentController.getGameC);
+app.get('/experimentFinished', experimentController.getExperimentFinished);
 
+// route middleware to make sure the user is logged in
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated())
+		return next();
+	res.redirect('/');
+}
 /**
  * Error Handler.
  */

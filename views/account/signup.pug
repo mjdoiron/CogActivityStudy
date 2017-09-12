@@ -1,24 +1,17 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Sign up
-  form.form-horizontal(id='signup-form', method='POST')
+  form.form(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='username') Username
-      .col-sm-7
+    .field-wrap
+      h1 Register New Participant
+      h3(style="color: red;") For Study Staff Only
+    .form-group.field-wrap
         input.form-control(type='text', name='username', id='username', placeholder='Username', autofocus, required)
-    .form-group
-      label.col-sm-3.control-label(for='password') Password
-      .col-sm-7
+    .form-group.field-wrap
         input.form-control(type='password', name='password', id='password', placeholder='Password', required)
-    .form-group
-      label.col-sm-3.control-label(for='confirmPassword') Confirm Password
-      .col-sm-7
+    .form-group.field-wrap
         input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        button.btn.btn-success(type='submit')
-          i.fa.fa-user-plus
-          | Signup
+    button.input.button.button-block(type='submit', value='Sign Up')
+      i.fa.fa-user-plus
+      | Sign Up      

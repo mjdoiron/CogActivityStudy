@@ -1,0 +1,8 @@
+extends ../layoutGame
+
+block content
+  iframe.game(src="http://callmenick.com/_development/memory/" scrolling="no" frameborder="0" onload="resizeIframe(this)")
+  script.
+    window.setTimeout(function(){
+      window.location.href = "/experimentFinished";
+    }, 90000);

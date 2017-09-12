@@ -1,0 +1,9 @@
+extends ../layoutGame
+
+block content
+  iframe.game(src="http://www.kellyking.me/projects/simon/" scrolling="no" frameborder="0" onload="resizeIframeWidth(this)")
+  script.
+    window.setTimeout(function(){
+      window.location.href = "/experimentFinished";
+    }, 45000);
+      
