@@ -2,24 +2,25 @@ extends layout
 
 block content
   if !user
-    form.form#signin(name='login', method='post', action='login')
+    form.form#signin(name='login', method='get', action='login')
       a(href="/login")
         button.button.button-block(type='default', class=(title === 'Login') ? 'active' : undefined) Login
   else
     if (user.username == "admin")
       .form(style= "background-color: orange;")
         h1 Admin Area
-        ul
-          .dropdown(class=(title === 'Account Management') ? 'active' : undefined)
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              span= user.profile.name || user.username || user.id
-              i.caret
-            ul.dropdown-menu
-              li
-                a(href='/account') My Account
-              li.divider
-              li
-                a(href='/logout') Logout
+        .field-wrap
+          ul
+            .dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                span= user.profile.name || user.username || user.id
+                i.caret
+              ul.dropdown-menu
+                li
+                  a(href='/account') My Account
+                li.divider
+                li
+                  a(href='/logout') Logout
     .form
       .field-wrap
         h2 Did you complete a sleep diary today?
