@@ -17,6 +17,8 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const sass = require('node-sass-middleware');
 
+
+const iframeReplacement = require('node-iframe-replacement')
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
@@ -41,11 +43,6 @@ const passportConfig = require('./config/passport');
  */
 const app = express();
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
 /**
  * Connect to MongoDB.
  */
@@ -114,6 +111,9 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
+
+app.use(iframeReplacement);
+
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
