@@ -105,40 +105,17 @@ exports.getGame = (req, res) => {
   res.render(instructions, {user: req.user});
 }
 exports.getGameA = (req, res) => {
+  res.render('experiment/GameA', {user: req.user})
   logger.forEvent(req.user.username, 'GameA-Loaded')
-  res.merge('experiment/GameA', {
-    // external url to fetch
-   sourceUrl: 'http://callmenick.com/_development/memory/',
-   // css selector to inject our content into
-   sourcePlaceholder: 'div[data-entityid="container-top-stories#1"]',
-   // pass a function here to intercept the source html prior to merging
-   transform: null,
-   user: req.user
-});
 }
 exports.getGameB = (req, res) => {
+  res.render('experiment/GameB', {user: req.user})
   logger.forEvent(req.user.username, 'GameB-Loaded')
-  res.merge('experiment/GameB', {
-    // external url to fetch
-   sourceUrl: 'http://www.javascriptsource.com/repository/javascripts/2010/04/883851/hit_the_doc.html',
-   // css selector to inject our content into
-   sourcePlaceholder: 'div[data-entityid="container-top-stories#1"]',
-   // pass a function here to intercept the source html prior to merging
-   transform: null,
-   user: req.user
-});
+
 }
 exports.getGameC = (req, res) => {
+  res.render('experiment/GameC', {user: req.user})
   logger.forEvent(req.user.username, 'GameC-Loaded')
-  res.merge('experiment/GameC', {
-    // external url to fetch
-   sourceUrl: 'http://www.kellyking.me/projects/simon/',
-   // css selector to inject our content into
-   sourcePlaceholder: 'div[data-entityid="container-top-stories#1"]',
-   // pass a function here to intercept the source html prior to merging
-   transform: null,
-   user: req.user
-});
 }
 exports.getExperimentFinished = (req, res) => {
   logger.forEvent(req.user.username, "SignOut")

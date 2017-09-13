@@ -1,9 +1,47 @@
-extends ../layoutGame
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Simon Says
+    link(rel='stylesheet', href='css/styleSimon.css')
+    script(src='/js/lib/jquery-3.1.1.min.js')
+    script(src='js/simon.js')
+    script.
+      window.setTimeout(function(){
+        window.location.href = "/experimentFinished";
+      }, 45000);
 
-block content
-  iframe.game(src="http://www.kellyking.me/projects/simon/" scrolling="no" frameborder="0" onload="resizeIframeWidth(this)")
-  script.
-    window.setTimeout(function(){
-      window.location.href = "/experimentFinished";
-    }, 45000);
-      
+  body
+    .wrapper
+      h1 Simon Says
+      .game-board
+        .simon
+          ul
+            li.tile.red(data-tile='1')
+            li.tile.blue(data-tile='2')
+            li.tile.yellow(data-tile='3')
+            li.tile.green(data-tile='4')
+      .game-info
+        h2
+          | Round: 
+          span(data-round='0') 0
+        button(data-action='start') Start
+        p(data-action='lose')
+          | Sorry, you lost after 
+          span(data-round='0')
+          |  rounds!
+      .game-options
+        h2 Game Options:
+        input(type='radio', name='mode', value='normal', checked='')
+        | Normal
+        br
+        input(type='radio', name='mode', value='sound-only')
+        | Sound Only
+        br
+        input(type='radio', name='mode', value='light-only')
+        | Light Only
+        br
+        input(type='radio', name='mode', value='free-board')
+        | Free board
+      div(data-action='sound')
