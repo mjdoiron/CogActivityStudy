@@ -21,6 +21,14 @@ block content
                 li.divider
                 li
                   a(href='/logout') Logout
+        .field-wrap
+          a(href="/getUsersDownload")
+            button.button.button-block(type='default') Download Users
+        .field-wrap
+          a(href="/getSleepDiaryDownload")
+            button.button.button-block(type='default') Download Sleep Diary Log 
+        a(href="/getEventLogDownload")
+          button.button.button-block(type='default') Download Event Log 
     .form
       .field-wrap
         h2 Did you complete a sleep diary today?

@@ -136,6 +136,9 @@ app.get('/gameA', isLoggedIn, experimentController.getGameA);
 app.get('/gameB', isLoggedIn, experimentController.getGameB);
 app.get('/gameC', isLoggedIn, experimentController.getGameC);
 app.get('/experimentFinished', experimentController.getExperimentFinished);
+app.get('/getUsersDownload', homeController.getUsersDownload)
+app.get('/SleepDiaryDownload', homeController.getSleepDiaryDownload)
+app.get('/EventLogDownload', homeController.getEventLogDownload)
 
 // route middleware to make sure the user is logged in
 function isLoggedIn(req, res, next) {

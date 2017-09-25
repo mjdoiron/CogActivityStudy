@@ -46,6 +46,7 @@ function play() {
   display("Playing");
   launch();
   showtime(gamelength);
+  console.log(user.username)
 }
 function display(msg) {
   document.cpanel.state.value=msg;
