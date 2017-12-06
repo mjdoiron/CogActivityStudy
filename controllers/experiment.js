@@ -79,8 +79,19 @@ exports.getSleepDiary = (req, res) => {
 exports.postSleepDiary = (req, res, next) => {
   const answers = [req.body.question1, req.body.question2, req.body.question3]
   logger.forSleepDiary(req.user.username, answers)
+  res.redirect('/activityPicker');
+}
+
+exports.getActivityPicker = (req, res) => {
+  res.render('experiment/activityPicker', {
+    title: 'Activity Picker'
+  })
+}
+exports.postActivityPicker = (req, res, next) => {
+  logger.forEvent(req.user.username, req.body.question1)
   res.redirect('/game');
 }
+
 exports.getGame = (req, res) => {
   const min = Math.ceil(1);
   const max = Math.floor(4);

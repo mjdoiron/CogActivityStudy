@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  form.form(role='form', action="/activityPicker", method="post")
+    .field-wrap
+      h3 Which event number (activity) are you completing for the day?
+      select.selectpicker(placeholder='--', id="question1", name="question1")
+        option(value="---") ---
+        option(value="1") Activity 1
+        option(value="2") Activity 2
+        option(value="3") Activity 3
+    button.button.button-block(type='submit') Save and Continue

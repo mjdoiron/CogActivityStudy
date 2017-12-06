@@ -131,6 +131,8 @@ app.post('/account/delete', passportConfig.isAuthenticated, userController.postD
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.get('/sleepDiary', isLoggedIn, experimentController.getSleepDiary);
 app.post('/sleepDiary', isLoggedIn, experimentController.postSleepDiary);
+app.get('/activityPicker', isLoggedIn, experimentController.getActivityPicker);
+app.post('/activityPicker', isLoggedIn, experimentController.postActivityPicker);
 app.get('/game', isLoggedIn, experimentController.getGame);
 app.get('/gameA', isLoggedIn, experimentController.getGameA);
 app.get('/gameB', isLoggedIn, experimentController.getGameB);
